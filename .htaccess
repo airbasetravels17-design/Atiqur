@@ -1,0 +1,46 @@
+# ========================================================
+# AURA STUDIO - APACHE .HTACCESS PRODUCTION CONFIGURATION
+# ========================================================
+
+# Disable Directory Browsing safely
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+# Default Charset
+AddDefaultCharset UTF-8
+
+# Protect Sensitive Configuration, Schema & Lock Files
+<FilesMatch "^(config\.php|schema\.sql|\.env|\.git|setup\.lock|composer\.json|package\.json|\.htaccess)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Protect Storage & Database Directories via RewriteEngine
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block direct access to database, core, and model directories
+    RewriteRule ^database/ - [F,L]
+    RewriteRule ^core/ - [F,L]
+    RewriteRule ^models/ - [F,L]
+
+    # Prevent script execution in uploads directory
+    RewriteRule ^uploads/.*\.(php|phtml|php3|php4|php5|php7|phps|cgi|pl|exe)$ - [F,NC,L]
+</IfModule>
+
+# Browser Caching for Performance
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+

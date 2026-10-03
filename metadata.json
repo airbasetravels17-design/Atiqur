@@ -1,0 +1,6 @@
+{
+  "name": "Women's Fit - Premium Fashion & Lifestyle E-Commerce",
+  "description": "Production-ready women's fashion and fit e-commerce platform with variant inventory, color-specific galleries, cart, checkout, order tracking, and comprehensive admin panel.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
