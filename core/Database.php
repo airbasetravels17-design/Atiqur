@@ -106,6 +106,11 @@ HTML;
         return $res === false ? null : $res;
     }
 
+    public static function fetchValue(string $sql, array $params = []) {
+        $stmt = self::query($sql, $params);
+        return $stmt->fetchColumn();
+    }
+
     public static function insert(string $sql, array $params = []): int {
         self::query($sql, $params);
         return (int) self::getConnection()->lastInsertId();

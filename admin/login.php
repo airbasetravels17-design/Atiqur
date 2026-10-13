@@ -114,6 +114,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if ($error): ?>
             <div class="alert alert-danger py-2 small" role="alert">
                 <i class="bi bi-exclamation-triangle-fill me-1"></i> <?= e($error) ?>
+                <div class="mt-2 pt-2 border-top border-danger-subtle text-center">
+                    <a href="reset.php" class="btn btn-danger btn-sm w-100 fw-semibold text-white">
+                        <i class="bi bi-key-fill me-1"></i> 1-Click Reset Admin & Unlock Login
+                    </a>
+                </div>
             </div>
         <?php endif; ?>
 
@@ -144,9 +149,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 Default Credentials: <strong>admin</strong> / <strong>admin123</strong>
             </div>
 
-            <div class="text-center mt-3">
+            <div class="text-center mt-3 d-flex justify-content-between align-items-center">
                 <a href="<?= BASE_URL ?>/" class="text-decoration-none small text-muted">
-                    ← Return to Storefront
+                    ← Storefront
+                </a>
+                <a href="reset.php" class="text-decoration-none small text-danger fw-semibold">
+                    <i class="bi bi-arrow-clockwise me-1"></i> Reset Password
                 </a>
             </div>
         </form>

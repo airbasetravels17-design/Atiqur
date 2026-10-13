@@ -283,8 +283,13 @@ INSERT INTO `sizes` (`id`, `code`, `sort_order`) VALUES
 (6, 'XXL', 6);
 
 -- Default Super Administrator (Username: admin | Password: admin123)
--- Password hash generated with password_hash('admin123', PASSWORD_BCRYPT)
+-- Verified bcrypt hash for: admin123
 INSERT INTO `admins` (`id`, `username`, `email`, `password_hash`, `full_name`, `role`, `is_active`) VALUES
-(1, 'admin', 'admin@womensfit.com', '$2y$10$wE9s06gq7iFpY.V/N/h32uGq7uKqM9J2uL7O1pQ1P6B6L3h5W8RWW', 'Super Administrator', 'super_admin', 1)
-ON DUPLICATE KEY UPDATE `username` = VALUES(`username`);
+(1, 'admin', 'admin@womensfit.com', '$2y$10$TuzVsVfe3EYmg/aNqtpxyeoLhcySuI8JEltZHvI5xZB/ymCQ2E4Hu', 'Super Administrator', 'super_admin', 1)
+ON DUPLICATE KEY UPDATE 
+  `username` = 'admin',
+  `email` = 'admin@womensfit.com',
+  `password_hash` = '$2y$10$TuzVsVfe3EYmg/aNqtpxyeoLhcySuI8JEltZHvI5xZB/ymCQ2E4Hu',
+  `is_active` = 1;
+
 

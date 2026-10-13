@@ -13,7 +13,7 @@ Security::initSession();
 
 // Check if setup is already locked
 if (file_exists(SETUP_LOCK_FILE)) {
-    die("<h3>Setup Locked</h3><p>Initial installation has already been completed. For security reasons, this setup wizard is permanently disabled.</p><p><a href='login.php'>Proceed to Admin Login</a></p>");
+    die("<h3>Setup Already Completed</h3><p>Initial installation is already finished.</p><p><a href='login.php' style='display:inline-block;padding:8px 16px;background:#0f172a;color:#fff;text-decoration:none;border-radius:6px;margin-right:10px;'>Proceed to Admin Login</a> <a href='reset.php' style='display:inline-block;padding:8px 16px;background:#e11d48;color:#fff;text-decoration:none;border-radius:6px;'>Reset / Recover Admin</a></p>");
 }
 
 // Also check if any admin already exists in the database
@@ -21,7 +21,7 @@ try {
     $existingAdmin = Database::fetchOne("SELECT id FROM admins LIMIT 1");
     if ($existingAdmin) {
         touch(SETUP_LOCK_FILE);
-        die("<h3>Setup Already Configured</h3><p>An administrator account already exists. Setup is now locked.</p><p><a href='login.php'>Proceed to Admin Login</a></p>");
+        die("<h3>Setup Already Configured</h3><p>An administrator account already exists.</p><p><a href='login.php' style='display:inline-block;padding:8px 16px;background:#0f172a;color:#fff;text-decoration:none;border-radius:6px;margin-right:10px;'>Proceed to Admin Login</a> <a href='reset.php' style='display:inline-block;padding:8px 16px;background:#e11d48;color:#fff;text-decoration:none;border-radius:6px;'>Reset / Recover Admin</a></p>");
     }
 } catch (Exception $e) {
     // Database table might need migration
