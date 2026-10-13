@@ -281,3 +281,10 @@ INSERT INTO `sizes` (`id`, `code`, `sort_order`) VALUES
 (4, 'L', 4),
 (5, 'XL', 5),
 (6, 'XXL', 6);
+
+-- Default Super Administrator (Username: admin | Password: admin123)
+-- Password hash generated with password_hash('admin123', PASSWORD_BCRYPT)
+INSERT INTO `admins` (`id`, `username`, `email`, `password_hash`, `full_name`, `role`, `is_active`) VALUES
+(1, 'admin', 'admin@womensfit.com', '$2y$10$wE9s06gq7iFpY.V/N/h32uGq7uKqM9J2uL7O1pQ1P6B6L3h5W8RWW', 'Super Administrator', 'super_admin', 1)
+ON DUPLICATE KEY UPDATE `username` = VALUES(`username`);
+

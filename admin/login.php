@@ -106,7 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="login-card">
         <div class="brand-header">
-            <h1>Aura Studio</h1>
+            <span style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:#e11d48; font-weight:700;">Admin Console</span>
+            <h1><?= htmlspecialchars(APP_NAME) ?></h1>
             <p>Administration & Operations Portal</p>
         </div>
 
@@ -123,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label class="form-label small fw-semibold text-secondary">Username or Email</label>
                 <div class="input-group">
                     <span class="input-group-text bg-light text-muted"><i class="bi bi-person"></i></span>
-                    <input type="text" name="username" class="form-control" required autofocus placeholder="admin">
+                    <input type="text" name="username" class="form-control" required autofocus placeholder="admin or admin@womensfit.com" value="<?= htmlspecialchars($_POST['username'] ?? 'admin') ?>">
                 </div>
             </div>
 
@@ -131,13 +132,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label class="form-label small fw-semibold text-secondary">Password</label>
                 <div class="input-group">
                     <span class="input-group-text bg-light text-muted"><i class="bi bi-lock"></i></span>
-                    <input type="password" name="password" class="form-control" required placeholder="••••••••">
+                    <input type="password" name="password" class="form-control" required placeholder="admin123">
                 </div>
             </div>
 
             <button type="submit" class="btn btn-primary w-100">
                 Sign In to Dashboard
             </button>
+
+            <div class="mt-3 p-2 bg-light rounded text-center" style="font-size: 0.8rem; color: #64748b; border: 1px dashed #cbd5e1;">
+                Default Credentials: <strong>admin</strong> / <strong>admin123</strong>
+            </div>
+
+            <div class="text-center mt-3">
+                <a href="<?= BASE_URL ?>/" class="text-decoration-none small text-muted">
+                    ← Return to Storefront
+                </a>
+            </div>
         </form>
     </div>
 </body>

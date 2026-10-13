@@ -28,8 +28,8 @@ class Auth {
         }
 
         $admin = Database::fetchOne(
-            "SELECT * FROM admins WHERE (username = :u OR email = :u) AND is_active = 1 LIMIT 1",
-            [':u' => trim($username)]
+            "SELECT * FROM admins WHERE (username = :user_val OR email = :email_val) AND is_active = 1 LIMIT 1",
+            [':user_val' => trim($username), ':email_val' => trim($username)]
         );
 
         if (!$admin || !password_verify($password, $admin['password_hash'])) {

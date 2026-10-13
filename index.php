@@ -26,8 +26,8 @@ if (file_exists($distIndex)) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="./assets/index-BcJHVt2l.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-ByB88U6j.css">
+    <script type="module" crossorigin src="./assets/index-CYT2j4jA.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-TETn6U2X.css">
   </head>
   <body class="bg-[#FAFAFA] text-[#1E293B] antialiased">
     <div id="root"></div>

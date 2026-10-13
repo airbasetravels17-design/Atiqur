@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight, ArrowRight, Sparkles, Flame, Tag } from 'lucide-react';
 
 interface HeroCampaignProps {
   onShopClick: () => void;
@@ -8,27 +8,82 @@ interface HeroCampaignProps {
 
 export const HeroCampaign: React.FC<HeroCampaignProps> = ({ onShopClick, onCategoryClick }) => {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const heroSlides = [
     {
-      kicker: 'NEW COLLECTION',
+      kicker: 'NEW COLLECTION 2026',
       title: 'Elevated Styles\nFor Every You',
-      subtitle: 'Fresh fits, trending now!',
+      subtitle: 'Fresh fits, trending silhouettes & artisanal details',
       offer: 'Up to 50% OFF',
+      tag: 'Trending Now',
       image: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=900&auto=format&fit=crop&q=80',
-      bgColor: 'bg-[#F2EBF9]'
+      bgColor: 'bg-gradient-to-r from-[#F5EEFB] via-[#F2EBF9] to-[#EBE2F5]',
+      accentColor: '#FF3F6C',
+      archBg: 'from-[#EADCF7] to-purple-100',
+      targetCategory: 'kurtis'
     },
     {
-      kicker: 'FESTIVE 2026',
+      kicker: 'FESTIVE ATELIER',
       title: 'Handcrafted\nJamdani & Silks',
-      subtitle: 'Artisanal heritage weaves',
+      subtitle: 'Artisanal heritage weaves for Eid & celebration moments',
       offer: 'Min. 40% OFF',
+      tag: 'Heritage Edit',
       image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=900&auto=format&fit=crop&q=80',
-      bgColor: 'bg-[#FDF2F8]'
+      bgColor: 'bg-gradient-to-r from-[#FFF1F2] via-[#FDF2F8] to-[#FCE7F3]',
+      accentColor: '#E11D48',
+      archBg: 'from-[#FBCFE8] to-rose-100',
+      targetCategory: 'sarees'
+    },
+    {
+      kicker: 'SUMMER RUNWAY',
+      title: 'Breezy Linen\n& Silk Co-Ords',
+      subtitle: 'Relaxed luxury tailoring crafted for Dhaka heat & elegance',
+      offer: 'Flat 35% OFF',
+      tag: 'Best Seller',
+      image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=900&auto=format&fit=crop&q=80',
+      bgColor: 'bg-gradient-to-r from-[#FFFBEB] via-[#FEF9EE] to-[#FEF3C7]',
+      accentColor: '#D97706',
+      archBg: 'from-[#FDE68A] to-amber-100',
+      targetCategory: 'co-ord-sets'
+    },
+    {
+      kicker: 'MODERN STATEMENT',
+      title: 'Floral Tiered\nMaxi Dresses',
+      subtitle: 'Effortless drape, premium modal and romantic florals',
+      offer: 'Special 45% OFF',
+      tag: 'Limited Edition',
+      image: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=900&auto=format&fit=crop&q=80',
+      bgColor: 'bg-gradient-to-r from-[#F0FDF4] via-[#F2FBF7] to-[#DCFCE7]',
+      accentColor: '#059669',
+      archBg: 'from-[#BBF7D0] to-emerald-100',
+      targetCategory: 'dresses'
     }
   ];
 
+  // Auto-rotating timer: advances slide every 4.5 seconds unless hovered/paused
+  useEffect(() => {
+    if (isPaused) return;
+
+    timerRef.current = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 4500);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isPaused, heroSlides.length]);
+
   const currentSlide = heroSlides[activeSlide];
+
+  const handleNext = () => {
+    setActiveSlide((prev) => (prev + 1) % heroSlides.length);
+  };
+
+  const handlePrev = () => {
+    setActiveSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1));
+  };
 
   // 9 Categories matching Womenfit.jpg
   const categories = [
@@ -46,77 +101,123 @@ export const HeroCampaign: React.FC<HeroCampaignProps> = ({ onShopClick, onCateg
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8 space-y-10">
       
-      {/* 1. Main Hero Banner matching Womenfit.jpg */}
-      <div className={`relative rounded-3xl overflow-hidden ${currentSlide.bgColor} p-6 sm:p-12 lg:p-14 transition-colors duration-500`}>
+      {/* 1. Main Hero Banner with Auto-Rotation, Smooth Cross-Fade & Hover Pause */}
+      <div
+        className={`relative rounded-3xl overflow-hidden ${currentSlide.bgColor} p-6 sm:p-12 lg:p-14 transition-all duration-700 shadow-sm border border-stone-100/70`}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
         
         {/* Carousel Prev/Next Buttons */}
         <button
-          onClick={() => setActiveSlide(prev => (prev === 0 ? heroSlides.length - 1 : prev - 1))}
-          className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white/90 shadow-md flex items-center justify-center text-stone-700 hover:bg-white"
+          onClick={handlePrev}
+          className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow-lg flex items-center justify-center text-stone-800 transition-all hover:scale-110 active:scale-95 focus:outline-none"
           aria-label="Previous slide"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
 
         <button
-          onClick={() => setActiveSlide(prev => (prev === heroSlides.length - 1 ? 0 : prev + 1))}
-          className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white/90 shadow-md flex items-center justify-center text-stone-700 hover:bg-white"
+          onClick={handleNext}
+          className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow-lg flex items-center justify-center text-stone-800 transition-all hover:scale-110 active:scale-95 focus:outline-none"
           aria-label="Next slide"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
 
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 max-w-6xl mx-auto">
-          
-          {/* Left Text Block */}
-          <div className="max-w-lg z-10 text-left">
-            <span className="text-[#FF3F6C] font-bold text-xs tracking-wider uppercase">
-              {currentSlide.kicker}
-            </span>
+        {/* Slide Counter Badge (Top Right) */}
+        <div className="absolute top-4 right-5 sm:top-6 sm:right-8 z-10 flex items-center gap-2 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-stone-700 shadow-xs border border-white/60">
+          <span className="w-2 h-2 rounded-full bg-[#FF3F6C] animate-pulse"></span>
+          <span>{activeSlide + 1} / {heroSlides.length}</span>
+        </div>
 
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-[54px] font-bold text-[#1F1E24] leading-[1.12] mt-2 mb-3 whitespace-pre-line">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 max-w-6xl mx-auto min-h-[380px] sm:min-h-[420px]">
+          
+          {/* Left Text Block with Keyframes Animation */}
+          <div
+            key={`slide-text-${activeSlide}`}
+            className="max-w-lg z-10 text-left animate-in fade-in slide-in-from-left-6 duration-500 fill-mode-forwards"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span
+                style={{ color: currentSlide.accentColor }}
+                className="font-extrabold text-xs tracking-wider uppercase flex items-center gap-1.5"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                {currentSlide.kicker}
+              </span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/80 text-stone-700 shadow-xs">
+                {currentSlide.tag}
+              </span>
+            </div>
+
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-[54px] font-bold text-[#1F1E24] leading-[1.12] mb-3 whitespace-pre-line tracking-tight">
               {currentSlide.title}
             </h1>
 
-            <p className="text-stone-700 text-sm sm:text-base font-medium mb-1">
+            <p className="text-stone-700 text-sm sm:text-base font-medium mb-2">
               {currentSlide.subtitle}
             </p>
 
-            <div className="text-stone-900 font-bold text-base sm:text-lg mb-6">
+            <div className="inline-block px-3 py-1 rounded-md bg-white/90 text-stone-900 font-extrabold text-base sm:text-lg mb-6 shadow-xs border border-stone-200/50">
+              <span className="text-[#FF3F6C] mr-1.5">★</span>
               {currentSlide.offer}
             </div>
 
             <div className="flex items-center gap-3">
               <button
                 onClick={onShopClick}
-                className="px-8 py-3 bg-[#FF3F6C] hover:bg-[#E11D48] text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-md shadow transition-colors"
+                className="px-8 py-3 bg-[#FF3F6C] hover:bg-[#E11D48] active:scale-95 text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-md shadow-md hover:shadow-lg transition-all flex items-center gap-2 group"
               >
-                Shop Now
+                <span>Shop Now</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
               <button
-                onClick={() => onCategoryClick('dresses')}
-                className="px-7 py-3 bg-white hover:bg-stone-50 border border-stone-300 text-stone-900 text-xs sm:text-sm font-bold tracking-wider uppercase rounded-md transition-colors"
+                onClick={() => onCategoryClick(currentSlide.targetCategory)}
+                className="px-7 py-3 bg-white hover:bg-stone-50 active:scale-95 border border-stone-300 text-stone-900 text-xs sm:text-sm font-bold tracking-wider uppercase rounded-md transition-all shadow-xs"
               >
-                Explore
+                Explore {currentSlide.targetCategory.replace('-', ' ')}
               </button>
             </div>
           </div>
 
-          {/* Right Arched Visual Motif (matching Womenfit.jpg) */}
-          <div className="relative w-full lg:w-[480px] flex justify-center">
+          {/* Right Arched Visual Motif with Zoom/Fade Transition */}
+          <div
+            key={`slide-img-${activeSlide}`}
+            className="relative w-full lg:w-[480px] flex justify-center animate-in fade-in zoom-in-95 duration-700"
+          >
             {/* Arched Background Shadow */}
-            <div className="w-[320px] sm:w-[400px] h-[340px] sm:h-[420px] rounded-t-full bg-gradient-to-b from-[#EADCF7] to-transparent overflow-hidden relative shadow-inner">
+            <div className={`w-[320px] sm:w-[400px] h-[340px] sm:h-[420px] rounded-t-full bg-gradient-to-b ${currentSlide.archBg} overflow-hidden relative shadow-inner group cursor-pointer`}>
               <img
                 src={currentSlide.image}
-                alt="Women's Fit Hero"
+                alt="Women's Fit Campaign"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-top scale-105"
+                className="w-full h-full object-cover object-top scale-100 hover:scale-105 transition-transform duration-700 ease-out"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
             </div>
           </div>
 
         </div>
+
+        {/* Interactive Slide Indicator Dots with Progress Glow */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-white/70 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/50 shadow-xs">
+          {heroSlides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setActiveSlide(idx)}
+              className={`transition-all duration-300 rounded-full ${
+                activeSlide === idx
+                  ? 'w-7 h-2.5 bg-[#FF3F6C] shadow-xs'
+                  : 'w-2.5 h-2.5 bg-stone-300 hover:bg-stone-400'
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+
       </div>
+
 
       {/* 2. 9 Category Badges Strip (Circular Images with Pill Labels matching Womenfit.jpg) */}
       <div className="py-2">
